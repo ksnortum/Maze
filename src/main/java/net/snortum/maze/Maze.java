@@ -1,11 +1,13 @@
 package net.snortum.maze;
 
+import net.snortum.inputer.Inputer;
+
 import java.io.*;
 import java.util.*;
 import java.util.List;
 
 public class Maze {
-    private static final Scanner STDIN = new Scanner(System.in);
+    //private static final Scanner STDIN = new Scanner(System.in);
     private static final Random random = new Random();
     private static final int PATH = 0;
     private static final int WALL = 1;
@@ -35,9 +37,9 @@ public class Maze {
 
         do {
             displayMenu();
-            choice = STDIN.nextInt();
-            STDIN.nextLine(); // consume <enter>
-
+            //choice = STDIN.nextInt();
+            //STDIN.nextLine(); // consume <enter>
+            choice = Inputer.getInt();
             switch (choice) {
                 case 0:
                     break;
@@ -95,16 +97,17 @@ public class Maze {
     private void generateMaze() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("An odd height and width will give you a better looking maze");
-        System.out.println("Enter height of a new maze");
-        height = scanner.nextInt();
-        width = height;
+        //System.out.println("Enter height of a new maze");
+        //height = scanner.nextInt();
+        height = Inputer.getInt("Enter height of a new maze", i -> i >= 5);
+        width = Inputer.getInt("Enter width of a new maze", i -> i >= 5);;
 
-        if (height < 5) {
-            throw new IllegalArgumentException("Maze size cannot be less than five");
-        }
+//        if (height < 5) {
+//            throw new IllegalArgumentException("Maze size cannot be less than five");
+//        }
 
         innerHeight = height % 2 == 1 ? height / 2 : height / 2 - 1;
-        innerWidth = innerHeight;
+        innerWidth = width % 2 == 1 ? width / 2 : width / 2 - 1;
         buildMaze();
     }
 
@@ -117,7 +120,8 @@ public class Maze {
     }
 
     private void loadMaze() {
-        String fileName = STDIN.nextLine();
+        //String fileName = STDIN.nextLine();
+        String fileName = Inputer.getString("Enter the file name of the file to load");
         File mazeFile = new File(fileName);
 
         if (!mazeFile.exists()) {
@@ -171,7 +175,8 @@ public class Maze {
             return;
         }
 
-        String fileName = STDIN.nextLine();
+        //String fileName = STDIN.nextLine();
+        String fileName = Inputer.getString("Enter the file name of the file to save");
         File mazeFile = new File(fileName);
 
         try (
